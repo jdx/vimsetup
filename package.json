@@ -2,7 +2,7 @@
   "name": "vimsetup",
   "description": "social plugin site for vim tools",
   "readme": "https://github.com/dickeyxxx/vimsetup/blob/master/README.md",
-  "version": "0.0.5",
+  "version": "0.0.8",
   "link": "http://vimsetup.com",
   "repository": "https://github.com/dickeyxxx/vimsetup",
   "keywords": "vim",
