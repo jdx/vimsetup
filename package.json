@@ -2,7 +2,7 @@
   "name": "vimsetup",
   "description": "social plugin site for vim tools",
   "readme": "https://github.com/dickeyxxx/vimsetup/blob/master/README.md",
-  "version": "0.0.2",
+  "version": "0.0.5",
   "link": "http://vimsetup.com",
   "repository": "https://github.com/dickeyxxx/vimsetup",
   "keywords": "vim",
@@ -29,7 +29,9 @@
     "gulp-header": "~1.0.2",
     "gulp": "~3.5.2",
     "gulp-conventional-changelog": "~0.1.2",
-    "gulp-bump": "~0.1.5"
+    "gulp-bump": "~0.1.5",
+    "gulp-mocha": "~0.4.1",
+    "should": "~3.1.2"
   },
   "dependencies": {
     "gulp-livescript": "~0.1.2"

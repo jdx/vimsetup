@@ -5,6 +5,7 @@ require! {
   'gulp-header'
   'gulp-conventional-changelog'
   'gulp-bump'
+  'gulp-mocha'
 }
 
 function getJsonFile
@@ -22,14 +23,22 @@ function getHeaderStream
  */\n\n
 """
 
-gulp.task 'release:bump' '' ->
+gulp.task 'compile' ->
+  gulp.src 'test/*.ls' ->
+    .pipe gulp-livescript bare: true
+    .pipe gulp.dest './build/test'
+
+gulp.task 'test:mocha' <[ compile ]> ->
+  gulp.src 'build/test/*.js'
+    .pipe gulp-mocha!
+
+gulp.task 'release:bump' ->
   gulp.src 'package.json' ->
     .pipe gulp-bump type: 'patch'
     .pipe gulp.dest('.')
 
 gulp.task 'release:build' <[ release:bump ]> ->
-  gulp.src './src/app.ls'
-    .pipe gulp-livescript!
+  gulp.src 'tmp/app.js'
     .pipe getHeaderStream!
     .pipe gulp.dest('./dist')
 
@@ -41,3 +50,4 @@ gulp.task 'release:commit' <[ release:build ]> ->
     .pipe gulp.dest('.')
 
 gulp.task 'release' <[ release:commit ]>
+gulp.task 'test' <[ test:mocha ]>
