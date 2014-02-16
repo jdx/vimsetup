@@ -6,6 +6,7 @@ require! {
   'gulp-conventional-changelog'
   'gulp-bump'
   'gulp-mocha'
+  'gulp-git'
 }
 
 function getJsonFile
@@ -44,10 +45,13 @@ gulp.task 'release:build' <[ release:bump ]> ->
 
 gulp.task 'release:commit' <[ release:build ]> ->
   const jsonFile = getJsonFile!
-  const commitMsg = "release: v#{ jsonFile.version }"
+  const message  = "release: v#{ jsonFile.version }"
   gulp.src <[ package.json CHANGELOG.md ]>
     .pipe gulpConventionalChangelog!
     .pipe gulp.dest('.')
+    .pipe gulp-git.add!
+    .pipe gulp-git.commit message
+    .pipe gulp-git.tag "v#{jsonFile.version}" message args: 'signed'
 
 gulp.task 'release' <[ release:commit ]>
 gulp.task 'test' <[ test:mocha ]>
