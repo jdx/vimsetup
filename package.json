@@ -1,0 +1,37 @@
+{
+  "name": "vimsetup",
+  "description": "social plugin site for vim tools",
+  "readme": "https://github.com/dickeyxxx/vimsetup/blob/master/README.md",
+  "version": "0.0.2",
+  "link": "http://vimsetup.com",
+  "repository": "https://github.com/dickeyxxx/vimsetup",
+  "keywords": "vim",
+  "private": true,
+  "author": {
+    "name": "dickeyxxx",
+    "email": "jeff@dickeyxxx.com",
+    "url": "http://dickey.xxx"
+  },
+  "bugs": {
+    "url": "https://github.com/dickeyxxx/vimsetup/issues"
+  },
+  "license": {
+    "type": "MIT",
+    "url": "http://vimsetup.mit-license.org"
+  },
+  "scripts": {
+    "test": "gulp test --require LiveScript",
+    "watch": "gulp watch --require LiveScript",
+    "release": "gulp release --require LiveScript"
+  },
+  "devDependencies": {
+    "LiveScript": "~1.2.0",
+    "gulp-header": "~1.0.2",
+    "gulp": "~3.5.2",
+    "gulp-conventional-changelog": "~0.1.2",
+    "gulp-bump": "~0.1.5"
+  },
+  "dependencies": {
+    "gulp-livescript": "~0.1.2"
+  }
+}
