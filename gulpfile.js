@@ -10,6 +10,6 @@ gulp.task('scripts', function() {
   gulp.src('./scripts/*.ls')
     .pipe(liveScript({bare: true}).on('error', gutil.log))
     .pipe(uglify())
-    .pipe(concat('site.min.js'))
-    .pipe(gulp.dest('./dist/js'));
+    .pipe(concat('application.js'))
+    .pipe(gulp.dest('./dist'));
 });

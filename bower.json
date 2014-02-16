@@ -1,0 +1,19 @@
+{
+  "name": "vim.addons.guru",
+  "version": "0.0.0",
+  "homepage": "https://github.com/dickeyxxx/vim.addons.guru-web",
+  "authors": [
+    "dickeyxxx <jeff@dickeyxxx.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "dist",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "ember": "~1.4.0"
+  }
+}
