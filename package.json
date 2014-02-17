@@ -21,8 +21,10 @@
   },
   "scripts": {
     "test": "gulp test --require LiveScript",
-    "watch": "gulp watch --require LiveScript",
-    "release": "gulp release --require LiveScript"
+    "build": "gulp build --require LiveScript",
+    "release": "gulp release --require LiveScript",
+    "start": "gulp server --require LiveScript",
+    "dev": "gulp dev --require LiveScript"
   },
   "engines": {
     "node": "0.10.25"
@@ -37,5 +39,13 @@
     "should": "~3.1.2",
     "gulp-livescript": "~0.1.2",
     "gulp-git": "~0.3.2"
+  },
+  "dependencies": {
+    "prerender-node": "~0.1.16",
+    "caterpillar-human": "~2.1.2",
+    "gulp-watch": "~0.5.0",
+    "gulp-clean": "~0.2.4",
+    "gulp-uglify": "~0.2.1",
+    "gulp-rename": "~1.0.0"
   }
 }

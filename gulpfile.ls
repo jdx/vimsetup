@@ -7,6 +7,11 @@ require! {
   'gulp-bump'
   'gulp-mocha'
   'gulp-git'
+  'gulp-watch'
+  'gulp-clean'
+  'gulp-uglify'
+  'gulp-rename'
+  './server'
 }
 
 function getJsonFile
@@ -24,38 +29,45 @@ function getHeaderStream
  */\n\n
 """
 
-gulp.task 'compile' <[ compile:test compile:src ]>
+mocha-options = {
+  reporter: 'spec'
+  globals: should: require('should')
+}
 
-gulp.task 'compile:test' ->
-  gulp.src 'test/*.ls' ->
-    .pipe gulp-livescript bare: true
-    .pipe gulp.dest './build/test'
+gulp.task 'test' ->
+  gulp.src 'test/*.ls'
+    .pipe gulp-mocha mocha-options
+    .on 'error', (err) -> this.emit('end')
 
-gulp.task 'compile:src' ->
-  gulp.src 'src/*.ls' ->
-    .pipe gulp-livescript bare: true
-    .pipe gulp.dest './build/src'
-
-gulp.task 'test:mocha' <[ compile ]> ->
-  gulp.src 'build/test/*.js'
-    .pipe gulp-mocha!
+gulp.task 'test:watch' ->
+  gulp.src 'test/*.ls', read: false
+    .pipe gulp-watch emit: 'all', (files) ->
+      files.pipe(gulp-mocha(mocha-options))
+        .on 'error', (err) -> this.emit('end')
 
 gulp.task 'release:bump' ->
   gulp.src 'package.json' ->
     .pipe gulp-bump type: 'patch'
     .pipe gulp.dest('.')
 
-gulp.task 'release:build' <[ compile ]> ->
-  gulp.src 'tmp/app.js'
-    .pipe getHeaderStream!
-    .pipe gulp.dest('./dist')
+gulp.task 'clean' ->
+  gulp.src 'public', read: false
+    .pipe gulp-clean!
 
-gulp.task 'release:changelog' ->
+gulp.task 'build' <[ clean ]> ->
+  gulp.src 'src/*.ls'
+    .pipe gulp-livescript bare: true
+    .pipe getHeaderStream!
+    .pipe gulp-uglify preserveComments: 'some'
+    .pipe gulp-rename extname: '.min.js'
+    .pipe gulp.dest('./public')
+
+gulp.task 'release:changelog' <[ release:bump ]> ->
   gulp.src 'CHANGELOG.md'
     .pipe gulpConventionalChangelog!
     .pipe gulp.dest '.'
 
-gulp.task 'release:commit' ->
+gulp.task 'release:commit' <[ build release:changelog ]> ->
   const jsonFile = getJsonFile!
   const message  = "release: v#{ jsonFile.version }"
   gulp.src <[ package.json CHANGELOG.md ]>
@@ -63,5 +75,10 @@ gulp.task 'release:commit' ->
     .pipe gulp-git.commit message
     .pipe gulp-git.tag("v#{jsonFile.version}" message)
 
+gulp.task 'server' <[ build ]> ->
+  port = 5000
+  server.server.listen port, ->
+    console.log "Server listening on port: #{port}"
+
 gulp.task 'release' <[ release:commit ]>
-gulp.task 'test' <[ test:mocha ]>
+gulp.task 'dev' <[ test:watch ]>
