@@ -3,3 +3,7 @@ build:
   steps:
     - npm-install
     - npm-test
+deploy:
+  steps:
+    - heroku-deploy:
+      key-name: DEPLOY_KEY
