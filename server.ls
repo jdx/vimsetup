@@ -1,24 +1,22 @@
 require! {
-  'http'
   'caterpillar'
   'caterpillar-human'
   'prerender-node'
-  'node-static'
+  'express'
 }
 
+port = 5000
+app = express!
 logger = caterpillar.createLogger!
 human = caterpillar-human.createHuman!
 logger.pipe(human).pipe(process.stdout)
 
-public-files = new Server('./public', cache: 7200 gzip: true )
+app.use(express.logger!)
+app.use(prerender-node)
 
-exports.server = http.createServer (request, response) ->
-  listener = request.addListener 'end', ->
-    public-files.serve request, response, (err, result) ->
-      if (err)
-        logger.log 'error' error: err.message, url: request.url
-        response.writeHead(err.status, err.headers)
-        response.end()
-      else
-        logger.log 'info' status: response.statusCode, url: request.url
-  listener.resume!
+app.get '/' (req, res) ->
+  res.send('hello world')
+
+app.listen(port)
+
+logger.log 'info', 'vimsetup listening on port', port

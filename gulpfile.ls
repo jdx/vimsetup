@@ -11,7 +11,7 @@ require! {
   'gulp-clean'
   'gulp-uglify'
   'gulp-rename'
-  './server'
+  'gulp-nodemon'
 }
 
 function getJsonFile
@@ -76,9 +76,9 @@ gulp.task 'release:commit' <[ build release:changelog ]> ->
     .pipe gulp-git.tag("v#{jsonFile.version}" message)
 
 gulp.task 'server' <[ build ]> ->
-  port = 5000
-  server.server.listen port, ->
-    console.log "Server listening on port: #{port}"
+  gulp-nodemon {
+    script: 'server.ls'
+  }
 
 gulp.task 'release' <[ release:commit ]>
 gulp.task 'dev' <[ test:watch ]>
