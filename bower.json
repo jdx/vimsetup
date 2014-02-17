@@ -1,7 +1,7 @@
 {
-  "name": "vim.addons.guru",
+  "name": "vimsetup",
   "version": "0.0.0",
-  "homepage": "https://github.com/dickeyxxx/vim.addons.guru-web",
+  "homepage": "https://github.com/dickeyxxx/vimsetup",
   "authors": [
     "dickeyxxx <jeff@dickeyxxx.com>"
   ],
@@ -9,7 +9,7 @@
   "ignore": [
     "**/.*",
     "node_modules",
-    "dist",
+    "public",
     "test",
     "tests"
   ],

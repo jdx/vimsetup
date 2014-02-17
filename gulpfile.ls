@@ -10,8 +10,11 @@ require! {
   'gulp-watch'
   'gulp-clean'
   'gulp-uglify'
-  'gulp-rename'
+  'gulp-plumber'
+  'gulp-concat'
   'gulp-nodemon'
+  'gulp-livereload'
+  'gulp-exec'
 }
 
 function getJsonFile
@@ -42,8 +45,20 @@ gulp.task 'test' ->
 gulp.task 'test:watch' ->
   gulp.src 'test/*.ls', read: false
     .pipe gulp-watch emit: 'all', (files) ->
-      files.pipe(gulp-mocha(mocha-options))
+      files
+        .pipe(gulp-mocha(mocha-options))
         .on 'error', (err) -> this.emit('end')
+
+gulp.task 'src:watch' ->
+  gulp.src 'src/**',
+    .pipe gulp-watch!
+    .pipe gulp-exec 'browserify src/router.ls -t liveify -t hbsfy -d --extension=.ls -o ./public/app.min.js'
+
+gulp.task 'livereload' ->
+  server = gulp-livereload();
+  gulp.watch 'public/app.min.js'
+    .on 'change' (file) ->
+      server.changed file.path
 
 gulp.task 'release:bump' ->
   gulp.src 'package.json' ->
@@ -51,16 +66,16 @@ gulp.task 'release:bump' ->
     .pipe gulp.dest('.')
 
 gulp.task 'clean' ->
-  gulp.src 'public', read: false
+  gulp.src <[ public ]>, read: false
     .pipe gulp-clean!
 
-gulp.task 'build' <[ clean ]> ->
-  gulp.src 'src/*.ls'
-    .pipe gulp-livescript bare: true
-    .pipe getHeaderStream!
-    .pipe gulp-uglify preserveComments: 'some'
-    .pipe gulp-rename extname: '.min.js'
-    .pipe gulp.dest('./public')
+gulp.task 'vendor' <[ clean ]> ->
+  gulp.src 'vendor/**'
+    .pipe gulp.dest('public/vendor')
+
+gulp.task 'build' <[ vendor ]> ->
+  gulp.src 'src/router.ls'
+    .pipe gulp-exec 'browserify src/router.ls -t liveify -t hbsfy -d --extension=.ls -o ./public/app.min.js'
 
 gulp.task 'release:changelog' <[ release:bump ]> ->
   gulp.src 'CHANGELOG.md'
@@ -81,4 +96,4 @@ gulp.task 'server' <[ build ]> ->
   }
 
 gulp.task 'release' <[ release:commit ]>
-gulp.task 'dev' <[ test:watch server ]>
+gulp.task 'dev' <[ src:watch test:watch server livereload ]>

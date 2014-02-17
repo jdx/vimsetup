@@ -1,1 +1,1 @@
-console.log 'foooo'
+module.exports = Ember.Application.create()

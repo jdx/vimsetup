@@ -2,5 +2,5 @@
   "execMap": {
     "ls": "lsc"
   },
-  "watch": [ "*.jade", "*.ls" ]
+  "watch": [ "views/index.jade", "server.ls" ]
 }

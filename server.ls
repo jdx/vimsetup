@@ -15,8 +15,8 @@ app.use(express.logger!)
 app.use(prerender-node)
 app.use(express.static(__dirname + '/public'))
 
-app.get '/' (req, res) ->
-  res.render 'index.jade'
+app.get '*' (req, res) ->
+  res.render 'index.html.ejs'
 
 app.listen(port)
 
