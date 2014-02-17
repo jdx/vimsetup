@@ -13,9 +13,10 @@ logger.pipe(human).pipe(process.stdout)
 
 app.use(express.logger!)
 app.use(prerender-node)
+app.use(express.static(__dirname + '/public'))
 
 app.get '/' (req, res) ->
-  res.send('hello world')
+  res.render 'index.jade'
 
 app.listen(port)
 

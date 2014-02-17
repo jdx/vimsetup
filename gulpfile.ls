@@ -81,4 +81,4 @@ gulp.task 'server' <[ build ]> ->
   }
 
 gulp.task 'release' <[ release:commit ]>
-gulp.task 'dev' <[ test:watch ]>
+gulp.task 'dev' <[ test:watch server ]>

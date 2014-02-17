@@ -1,5 +1,6 @@
 {
   "execMap": {
     "ls": "lsc"
-  }
+  },
+  "watch": [ "*.jade", "*.ls" ]
 }
