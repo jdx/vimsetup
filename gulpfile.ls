@@ -13,7 +13,6 @@ require! {
   'gulp-plumber'
   'gulp-concat'
   'gulp-nodemon'
-  'gulp-livereload'
   'gulp-exec'
 }
 
@@ -54,12 +53,6 @@ gulp.task 'src:watch' ->
     .pipe gulp-watch!
     .pipe gulp-exec 'browserify src/router.ls -t liveify -t hbsfy -d --extension=.ls -o ./public/app.min.js'
 
-gulp.task 'livereload' ->
-  server = gulp-livereload();
-  gulp.watch 'public/app.min.js'
-    .on 'change' (file) ->
-      server.changed file.path
-
 gulp.task 'release:bump' ->
   gulp.src 'package.json' ->
     .pipe gulp-bump type: 'patch'
@@ -96,4 +89,4 @@ gulp.task 'server' <[ build ]> ->
   }
 
 gulp.task 'release' <[ release:commit ]>
-gulp.task 'dev' <[ src:watch test:watch server livereload ]>
+gulp.task 'default' <[ src:watch test:watch server ]>
