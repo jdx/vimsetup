@@ -1,7 +1,12 @@
-app = angular.module('vimsetupApp', ['ngRoute'])
+app = angular.module('vimsetupApp', ['ngRoute', 'ngResource'])
 
-app.controller 'pluginController', ($scope) ->
-  $scope.name = "obar!?"
+app.factory 'Plugin', ($resource) ->
+  $resource 'plugins.json', {}, {
+    query: { method: 'GET', isArray: true }
+  }
+
+app.controller 'pluginController', ($scope, Plugin) ->
+  $scope.plugins = Plugin.query!
 
 app.config ($route-provider, $location-provider) ->
   $route-provider.when '/' {

@@ -15,6 +15,9 @@ app.use(express.logger!)
 app.use(prerender-node)
 app.use(express.static(__dirname + '/public'))
 
+app.get '/plugins.json' (req, res) ->
+  res.json []
+
 app.get '*' (req, res) ->
   res.render 'index.html.ejs'
 

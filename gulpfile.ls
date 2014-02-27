@@ -31,10 +31,6 @@ gulp.task 'clean' ->
   gulp.src <[ public ]>, read: false
     .pipe gulp-clean!
 
-gulp.task 'vendor' <[ clean ]> ->
-  gulp.src 'vendor/**'
-    .pipe gulp.dest('public/vendor')
-
 gulp.task 'templates' <[ clean ]> ->
   gulp.src 'templates/**/*.html'
     .pipe gulp.dest('public/pages')
@@ -49,5 +45,5 @@ gulp.task 'server' <[ build ]> ->
     script: 'server.ls'
   }
 
-gulp.task 'build'   <[ clean templates vendor livescript ]>
+gulp.task 'build'   <[ clean templates livescript ]>
 gulp.task 'default' <[ build watch server ]>
